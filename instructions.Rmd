@@ -1,0 +1,10 @@
+---
+title: "Instructions"
+author: "Mauricio Marcos Fajgenbaun"
+date: "19/3/2021"
+output: html_document
+---
+
+# Instructions for the use of this app
+
+Explanation here on the different panels and how to use them properly.
