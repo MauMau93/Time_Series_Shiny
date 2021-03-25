@@ -20,7 +20,7 @@ library("readr")
 
 
 # Define UI for application that draws a histogram
-ui <- navbarPage(theme= shinytheme("journal"),
+ui <- navbarPage(theme= shinytheme("united"),
                  "Time Series app",
                  id = "form",
                  # First Panel
