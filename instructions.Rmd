@@ -5,6 +5,84 @@ date: "19/3/2021"
 output: html_document
 ---
 
-# Instructions for the use of this app
+# Time Series Shiny App
 
-Explanation here on the different panels and how to use them properly.
+This is a shiny app to study time series. Following, we describe the different functionalities:
+
+## Plot, ACF and PACF
+
+This is the panel where you have to insert your data. You have the choice: either .csv or .xlsx format (please select). Data must be inserted, with only **one** column: the one with the values of the time series. Then, you have to determine the frequency (1 = "anual data", 12 = "monthly data", 4 = "trimestral data", etc.). Then, you need to decide in which month does the data set start. 
+Please, remember you can upload a csv or xlsx file with only **one** column.
+
+Please, take into account that for excel files, when using a mac it can bring some trouble. Although it should work in any case, if you are using a mac, we recommend you use a cvs instead of an excel.
+
+Then, you can decide what plot to look at, you have 6 options: "Actual" (no transformation), "log" (performing nathural logarithm to achieve homocedasticity), "dif" (first difference), "log-dif" (both logarithm and difference), sec_diff (second difference), log_sec_diff (logarithm and second difference).
+Finally, you get to choose what autocorrelation function plot you want to look at. You have 6 options again: "ACF", "PACF", "ACF for differenced data", "PACF for differenced data", "ACF for second difference" and "PACF for second difference". You need to choose the number of lags you want to plot for any of the plots.
+
+You also have a button: "Reset" to reset the data and choose a new dataset.
+
+## Plot and Diagnostics
+
+Here you have 3 options: "Estimation with outliers", "Estimation without outliers", "Residual Diagnostics".
+
+### Estimation with outliers
+
+You need to wait a couple of seconds until getting the result. Here, you will get an estimation of the order of the process both for the regular and seasonal part of your model (AIC criterion). You will also get the estimation of the parameters, and the outliers detection. This is performed with "auto.arima()" function.
+
+### Estimation without outliers
+
+Here you get an estimation of the order of the process both for regular and season part of your model, but without paying attention to outlier detection.
+
+### Residual Diagnostics
+
+Here you have 7 radio buttons to choose from:
+
+##### Original vs. Estimated Plot
+
+Here you can see how well your estimated model fits your real data.
+
+##### Plot of residuals
+
+Here you get a plot of your residuals. You should check if the mean is centered at zero thourgh time, and if they behave homocedastic (variance is constant through time). We want to asses if the residuals are white noise.
+
+##### ACF of residuals
+
+Here you will get the Autocorrelogram of the residuals, where there should not be any correlation through time.
+
+##### PACF of residuals
+
+Here you will see the Partial Autocorrelogram of the residuals, where there should not be any significant pick either.
+
+##### QQ Plot
+
+Here you will see displayed a qq plot of the residuals, to asses if they behave normal or not.
+
+##### Jarque Bera test
+
+As the QQ plot is just a visualization and does not really allows ut to take propper conclusions, we perform the Jarque Bera test. This hypotesis test is formulated as follows:
+
+$H_o) E(\epsilon_{t}^s)^3=0$ and $E(\epsilon_{t}^s)^4 = 3$
+$H_1) E(\epsilon_{t}^s)^3\neq0$ and $E(\epsilon_{t}^s)^4 \neq 3$
+
+##### Ljung - Box Test
+
+This test hekps us answering the question: do we have something to model? It is formulated as follows:
+$H_o)$ No dependance in the model (just white noise)
+$H_1)$ There is dependancy that I have to model
+
+We perform this test with 48 lags.
+
+### TS Decomposition
+
+Here you see a display of the decomposition of the time series: trend, seasonal part, time series and random part. Take into account that you can not do this for annual data.
+
+### Forecast
+
+Here you can do forecast on your time series. To do this, you have the option of choosing either of the two models you got on the estimations (with and without outliers) or any other model you want to try out. This way, you fill the regular part  (p,d,q) and season part (P,D,Q), the number of periods you want to forecast and the output: a plot with confidence interval or a table with the predicted values for the future periods.
+Please, take into account that all the boxes must be filled: if there is no seasonality on the model, you have to put 0 in all the boxes of seasonal part.
+
+
+
+
+
+

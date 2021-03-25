@@ -13,6 +13,10 @@ library("forecast")
 library("tsoutliers")
 library("forecast")
 library("tseries")
+library("readxl")
+library("tidyverse")
+library("readr")
+
 
 
 # Define UI for application that draws a histogram
@@ -36,17 +40,34 @@ ui <- navbarPage(theme= shinytheme("journal"),
                                   sidebarPanel(
                                       shinyjs::useShinyjs(),
                                       div(id = "myapp",
-                                      fileInput(inputId = "filedata",
-                                                label = "Upload data. Choose csv file",
-                                                accept = c(".csv")),
+                                      #fileInput(inputId = "filedata",
+                                      #          label = "Upload data. Choose csv file",
+                                      #          accept = c(".csv")),
+                                      radioButtons(
+                                          "fileType_Input",
+                                          label = h4("Choose File type"),
+                                          choices = list(".csv/txt" = 1, ".xlsx" = 2),
+                                          selected = 1,
+                                          inline = TRUE
+                                      ),
+                                      fileInput(
+                                          'file1',
+                                          h4('Upload Items List'),
+                                          accept = c(
+                                              'text/csv',
+                                              'text/comma-separated-values,text/plain',
+                                              '.csv',
+                                              '.xlsx'
+                                          ),
+                                      ),
                                       numericInput("init","Choose the beggining", 1900, min = 1, max = 2030),
                                       sliderInput("month", "What month is the first one? (If applies)", 1, min=1,max=12),
                                       numericInput("freq","Choose the frequency", 1, min = 1,max = 12),
                                       selectInput("pl", "Select a plot:",
-                                                  choices = c('Select','Actual','Differenced','log','log_and_diff'),
+                                                  choices = c('Select','Actual','Differenced','log','log_and_diff', "second_diff","log_and_second_diff"),
                                                   selected = 'Select'),
                                       selectInput("acfp", "Select a correlation function:",
-                                                  choices = c('Select','PACF-Actual','PACF-Differenced','ACF-Actual','ACF-Differenced'),
+                                                  choices = c('Select','PACF-Actual','PACF-Differenced','ACF-Actual','ACF-Differenced',"ACF-Sec-Diff","PACF-Sec-Diff"),
                                                   selected = 'Select'),
                                       numericInput("lags","Choose the lags", 1, min = 1, max =48),
                                       
@@ -71,7 +92,7 @@ ui <- navbarPage(theme= shinytheme("journal"),
                               tabPanel("Residual Diagnostics", value=2,
                                        radioButtons("radio", 
                                                     label = HTML('<FONT color="red"><FONT size="5pt">Output Selection</FONT></FONT><br> <b>Choose a diagnostic</b>'),
-                                                    choices = list("Estimation vs. Original Plot" = 1, "Plot of Residuals" = 2, "ACF of Residuals" = 3, "PACF of Residuals" = 4, "QQ Plot of Residuals" = 5, "Jarque-Bera Test" = 6, "Box-Pierce Test" = 7),
+                                                    choices = list("Estimation vs. Original Plot" = 1, "Plot of Residuals" = 2, "ACF of Residuals" = 3, "PACF of Residuals" = 4, "QQ Plot of Residuals" = 5, "Jarque-Bera Test" = 6, "Ljung- Box Test" = 7),
                                                     selected = 1,
                                                     inline = T,
                                                     width = "100%"),      
@@ -122,8 +143,24 @@ server <- function(input, output) {
 
     #Read the csv
     
-    data <- reactive({read.csv(input$filedata$datapath)})
+    #data <- reactive({read.csv(input$filedata$datapath)})
     
+##########################################
+  # intento de excel y csv
+    
+      data <- reactive({
+    inFile <- input$file1
+        
+        if (is.null(inFile)) {
+            return(NULL) }
+        
+        if (input$fileType_Input == "1") {
+            read.csv(inFile$datapath)
+        } else {
+            read_excel(inFile$datapath)
+        }
+    })
+###############################################################
         
    series <- reactive({
        serie <- ts(data(), start=c(year=input$init, month=input$month), frequency = input$freq)
@@ -133,6 +170,8 @@ server <- function(input, output) {
     output$plot1 <- renderPlot({
         differncedSeries <<- diff(series(), differences=1)
         logseries <<- log(series())
+        secdiff <<- diff(series(),differences=2)
+        
         
         if(input$pl == 'Actual'){
             plot.ts(series(),main="Time Series Plot")
@@ -142,6 +181,12 @@ server <- function(input, output) {
            plot.ts(logseries,col = "blue")
         } else if(input$pl == 'log_and_diff'){
             plot.ts(log(differncedSeries),col = "blue")
+        }
+        else if(input$pl == 'second_diff'){
+            plot.ts((secdiff),col = "blue")
+        }
+        else if(input$pl == 'log_and_second_diff'){
+            plot.ts(log(secdiff),col = "blue")
         }
     })
     
@@ -154,6 +199,10 @@ server <- function(input, output) {
             acf(series(), lag.max=input$lags)
         } else if(input$acfp == 'ACF-Differenced'){
             pacf(differncedSeries, lag.max=input$lags)
+        } else if(input$acfp == 'ACF-Sec-Diff'){
+            pacf(secdiff, lag.max=input$lags)
+        } else if(input$acfp == 'PACF-Sec-Diff'){
+            pacf(secdiff, lag.max=input$lags)
         }
     })
 
@@ -211,10 +260,7 @@ server <- function(input, output) {
         }
     })
     
-    #choices = list("Estimation vs. Original Plot" = 1, "Plot of Residuals" = 2, "ACF of Residuals" = 3, "PACF of Residuals = 4, "QQ Plot of Residuals" = 5),
-    #  jarque.bera.test(resid)
-    #  Box.test(resid)
-
+  
     output$test <- renderPrint({
         f <- auto.arima(series())
         resid<-f$residuals
@@ -222,7 +268,7 @@ server <- function(input, output) {
         jarque.bera.test(resid)
     }
         else if (input$radio == 7){
-        Box.test(resid)
+        Box.test(resid,type="Ljung-Box")
     }
     })
 
@@ -254,8 +300,13 @@ server <- function(input, output) {
     })
     
     output$Structure <- renderPlot({
+        if (input$freq == 1){
+        showNotification("You can not see this decomposition, as your data is annual",duration=NULL,closeButton = FALSE)
+        }
+        else {
         birthsComp <- decompose(series())
         plot(birthsComp)
+        }
         
     })
     
