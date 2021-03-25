@@ -81,6 +81,8 @@ Here you see a display of the decomposition of the time series: trend, seasonal 
 Here you can do forecast on your time series. To do this, you have the option of choosing either of the two models you got on the estimations (with and without outliers) or any other model you want to try out. This way, you fill the regular part  (p,d,q) and season part (P,D,Q), the number of periods you want to forecast and the output: a plot with confidence interval or a table with the predicted values for the future periods.
 Please, take into account that all the boxes must be filled: if there is no seasonality on the model, you have to put 0 in all the boxes of seasonal part.
 
+# Enjoy the app
+
 
 
 

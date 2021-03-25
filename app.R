@@ -93,11 +93,12 @@ ui <- navbarPage(theme= shinytheme("journal"),
                                        radioButtons("radio", 
                                                     label = HTML('<FONT color="red"><FONT size="5pt">Output Selection</FONT></FONT><br> <b>Choose a diagnostic</b>'),
                                                     choices = list("Estimation vs. Original Plot" = 1, "Plot of Residuals" = 2, "ACF of Residuals" = 3, "PACF of Residuals" = 4, "QQ Plot of Residuals" = 5, "Jarque-Bera Test" = 6, "Ljung- Box Test" = 7),
-                                                    selected = 1,
-                                                    inline = T,
-                                                    width = "100%"),      
+                                                    selected = 1),      
                                        plotOutput("diag"),
-                                       verbatimTextOutput("test"),
+                                       fluidRow(
+                                           column(10,
+                                                  verbatimTextOutput("test"),
+                                           )),
                               )
                               ),
 
@@ -285,10 +286,10 @@ server <- function(input, output) {
             plot(resid)
         }
         else if ( input$radio == 3){
-            acf(resid)
+            acf(resid,lag=36)
         }
         else if ( input$radio == 4){
-            pacf(resid)
+            pacf(resid,lag=36)
             
         }
         else if ( input$radio == 5){
