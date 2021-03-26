@@ -14,9 +14,9 @@ This is a shiny app to study time series. Following, we describe the different f
 This is the panel where you have to insert your data. You have the choice: either .csv or .xlsx format (please select). Data must be inserted, with only **one** column: the one with the values of the time series. Then, you have to determine the frequency (1 = "anual data", 12 = "monthly data", 4 = "trimestral data", etc.). Then, you need to decide in which month does the data set start. 
 Please, remember you can upload a csv or xlsx file with only **one** column.
 
-Please, take into account that for excel files, when using a mac it can bring some trouble. Although it should work in any case, if you are using a mac, we recommend you use a cvs instead of an excel.
+Please, take into account that for excel files, when using a mac it can bring some trouble. Although it should work in any case, if you are using a mac, we recommend you use a .csv instead of an excel.
 
-Then, you can decide what plot to look at, you have 6 options: "Actual" (no transformation), "log" (performing nathural logarithm to achieve homocedasticity), "dif" (first difference), "log-dif" (both logarithm and difference), sec_diff (second difference), log_sec_diff (logarithm and second difference).
+Then, you can decide what plot to look at, you have 6 options: "Actual" (no transformation), "log" (performing nathural logarithm to achieve homocedasticity), "dif" (first difference), "log-dif" (both logarithm and difference), "sec_diff" (second difference), "log_sec_diff" (logarithm and second difference).
 Finally, you get to choose what autocorrelation function plot you want to look at. You have 6 options again: "ACF", "PACF", "ACF for differenced data", "PACF for differenced data", "ACF for second difference" and "PACF for second difference". You need to choose the number of lags you want to plot for any of the plots.
 
 You also have a button: "Reset" to reset the data and choose a new dataset.
@@ -61,8 +61,8 @@ Here you will see displayed a qq plot of the residuals, to asses if they behave 
 
 As the QQ plot is just a visualization and does not really allows ut to take propper conclusions, we perform the Jarque Bera test. This hypotesis test is formulated as follows:
 
-$H_o) E(\epsilon_{t}^s)^3=0$ and $E(\epsilon_{t}^s)^4 = 3$
-$H_1) E(\epsilon_{t}^s)^3\neq0$ and $E(\epsilon_{t}^s)^4 \neq 3$
+$H_o)$ $E(\epsilon_{t}^s)^3=0$ and $E(\epsilon_{t}^s)^4 = 3$
+$H_1)$ $E(\epsilon_{t}^s)^3\neq0$ and $E(\epsilon_{t}^s)^4 \neq 3$
 
 ##### Ljung - Box Test
 

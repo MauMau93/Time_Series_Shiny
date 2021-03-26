@@ -62,6 +62,7 @@ ui <- navbarPage(theme= shinytheme("united"),
                                       ),
                                       numericInput("init","Choose the beggining", 1900, min = 1, max = 2030),
                                       sliderInput("month", "What month is the first one? (If applies)", 1, min=1,max=12),
+                                      sliderInput("day", "What month is the first day? (If applies)", 1, min=1,max=31),
                                       numericInput("freq","Choose the frequency", 1, min = 1,max = 12),
                                       selectInput("pl", "Select a plot:",
                                                   choices = c('Select','Actual','Differenced','log','log_and_diff', "second_diff","log_and_second_diff"),
@@ -164,7 +165,7 @@ server <- function(input, output) {
 ###############################################################
         
    series <- reactive({
-       serie <- ts(data(), start=c(year=input$init, month=input$month), frequency = input$freq)
+       serie <- ts(data(), start=c(year=input$init, month=input$month, day=input$day), frequency = input$freq)
        
    })
 
@@ -177,9 +178,9 @@ server <- function(input, output) {
         if(input$pl == 'Actual'){
             plot.ts(series(),main="Time Series Plot")
         } else if(input$pl == 'Differenced'){
-            plot.ts(differncedSeries,col = "blue")
+            plot.ts(differncedSeries,col = "blue", main="Dif Time Series")
         } else if(input$pl == 'log'){
-           plot.ts(logseries,col = "blue")
+           plot.ts(logseries,col = "blue",main=)
         } else if(input$pl == 'log_and_diff'){
             plot.ts(log(differncedSeries),col = "blue")
         }
