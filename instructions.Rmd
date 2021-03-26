@@ -38,27 +38,27 @@ Here you get an estimation of the order of the process both for regular and seas
 
 Here you have 7 radio buttons to choose from:
 
-##### Original vs. Estimated Plot
+#### Original vs. Estimated Plot
 
 Here you can see how well your estimated model fits your real data.
 
-##### Plot of residuals
+#### Plot of residuals
 
 Here you get a plot of your residuals. You should check if the mean is centered at zero thourgh time, and if they behave homocedastic (variance is constant through time). We want to asses if the residuals are white noise.
 
-##### ACF of residuals
+#### ACF of residuals
 
 Here you will get the Autocorrelogram of the residuals, where there should not be any correlation through time.
 
-##### PACF of residuals
+#### PACF of residuals
 
 Here you will see the Partial Autocorrelogram of the residuals, where there should not be any significant pick either.
 
-##### QQ Plot
+#### QQ Plot
 
 Here you will see displayed a qq plot of the residuals, to asses if they behave normal or not.
 
-##### Jarque Bera test
+#### Jarque Bera test
 
 As the QQ plot is just a visualization and does not really allows ut to take propper conclusions, we perform the Jarque Bera test. This hypotesis test is formulated as follows:
 
@@ -66,7 +66,7 @@ H_o) E(epsilon_t^s)^3 = 0 and $E(epsilon_t^s)^4 = 3
 
 H_1) E(epsilon_t^s)^3 different from 0 and E(epsilon_t^s)^4 different from 3
 
-##### Ljung - Box Test
+#### Ljung - Box Test
 
 This test hekps us answering the question: do we have something to model? It is formulated as follows:
 
