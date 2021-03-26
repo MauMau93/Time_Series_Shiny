@@ -11,7 +11,8 @@ This is a shiny app to study time series. Following, we describe the different f
 
 ## Plot, ACF and PACF
 
-This is the panel where you have to insert your data. You have the choice: either .csv or .xlsx format (please select). Data must be inserted, with only **one** column: the one with the values of the time series. Then, you have to determine the frequency (1 = "anual data", 12 = "monthly data", 4 = "trimestral data", etc.). Then, you need to decide in which month does the data set start. 
+This is the panel where you have to insert your data. You have the choice: either .csv or .xlsx format (please select). Data must be inserted, with only **one** column: the one with the values of the time series. Then, you have to determine the frequency (1 = "anual data", 12 = "monthly data", 4 = "trimestral data", 365="Daily data".). Then, you need to decide in which month does the data set start and what day.
+
 Please, remember you can upload a csv or xlsx file with only **one** column.
 
 Please, take into account that for excel files, when using a mac it can bring some trouble. Although it should work in any case, if you are using a mac, we recommend you use a .csv instead of an excel.
