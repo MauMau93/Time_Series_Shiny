@@ -62,14 +62,17 @@ Here you will see displayed a qq plot of the residuals, to asses if they behave 
 
 As the QQ plot is just a visualization and does not really allows ut to take propper conclusions, we perform the Jarque Bera test. This hypotesis test is formulated as follows:
 
-$H_o)$ $E(\epsilon_{t}^s)^3=0$ and $E(\epsilon_{t}^s)^4 = 3$
-$H_1)$ $E(\epsilon_{t}^s)^3\neq0$ and $E(\epsilon_{t}^s)^4 \neq 3$
+H_o) E(epsilon_t^s)^3 = 0 and $E(epsilon_t^s)^4 = 3
+
+H_1) E(epsilon_t^s)^3 different from 0 and E(epsilon_t^s)^4 different from 3
 
 ##### Ljung - Box Test
 
 This test hekps us answering the question: do we have something to model? It is formulated as follows:
-$H_o)$ No dependance in the model (just white noise)
-$H_1)$ There is dependancy that I have to model
+
+H_o) No dependance in the model (just white noise)
+
+H_1) There is dependancy that I have to model
 
 We perform this test with 48 lags.
 
