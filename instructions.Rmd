@@ -1,6 +1,6 @@
 ---
 title: "Instructions"
-author: "Mauricio Marcos Fajgenbaun"
+author: "Mauricio Marcos Fajgenbaun and Javier Eseteban Aragoneses"
 date: "19/3/2021"
 output: html_document
 ---
